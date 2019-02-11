@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Eldrith Horror Field RNG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CDN Stuff -->
+    <!-- JSX -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- React -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"
+        integrity="sha256-8B1OaG0zT7uYA572S2xOxWACq9NXYPQ+U5kHPV1bJN4=" crossorigin="anonymous" />
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-1">
+                    Eldritch Horror: Random Field Generator
+                </h1>
+                <h2 class="subtitle">
+                    Get random fields!
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+   
+        <p class="title is-3">What is this for?</p>
+        <p>This is a small tool to determine a random field in the board game <a href="#">Eldritch Horror</a>. 
+            While playing this game it may occur that a random field must be chosen, which can get complicated since some are named instead of numerated.
+            This tool does provide a simple and neat solution to this matter.
+        </p>
+        <br>
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+            <!-- <div class="tile is-4 is-vertical is-parent"> -->
+                <div class="tile is-child box">
+                    <p class="title is-4">Random Field Generator</p>
+                            <input type="checkbox" name="part" value="base" checked disabled>
+                            Eldritch Horror Base Game <br>
+                            <br>
+                            <label class="label">Expensions</label>
+                            <input type="checkbox" name="part" value="base" id="mom">
+                            Mountains of Madness <br>
+                            <input type="checkbox" name="part" value="base" id="pyram">
+                            Pyramids <br>
+                            <input type="checkbox" name="part" value="base" id="dlands">
+                            Dreamlands <br>
+                                    <div id="rollBtn"></div>
+                                    <br>
+                                    <div id="app"></div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <p class="title is-4">Result</p>
+                    <p>Click "Roll" to generate a random location.</p>
+                    <br>
+                    <center>
+                        <div id="result">
+                            
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Eldritch Horror Random Field Generator</strong> by valerius21. The source code is licensed
+                <a href="https://opensource.org/licenses/GPL-3.0">GNU GPL v3.0</a>.
+            </p>
+        </div>
+    </footer> -->
+    
+    <script type="text/babel">
+        function ActionLink() {
+            function handleClick(e) {
+                e.preventDefault();
+                const element = document.getElementById("result");
+                element.innerHTML = '<hr><p class="title is-medium">' + genField() + '</p><hr>';
+            }
+
+            function genField() {
+                 /**
+                 * Base Fields according to the base game
+                 */
+                const baseFields = ['Field 1', 'Field 2', 'Field 3', 'Field 4', 'Field 5', 'Field 6', 'Field 7', 'Field 8',
+                  'Field 9', 'Field 10', 'Field 11', 'Field 12', 'Field 13', 'Field 14', 'Field 15', 'Field 16', 'Field 17', 'Field 18',
+                  'Field 19', 'Field 20', 'Field 21',
+                  'San Francisco', 'Arkham', 'The Amazon', 'Buenos Aires', 'London', 'Rome', 'Istandbul', 'The Pyramids',
+                  'The Heart of Africa', 'Antartica', 'Tunguska', 'The Himalayas', 'Shanghai', 'Tokyo', 'Sydney'];
+
+                /**
+                 * Expensions
+                 */
+                const antarticaMap = ['Miskatonic Outpost', 'Lake Camp', 'Frozen Waste', 'City of the Elder Things',
+                  'Snowy Mountains', 'Plateau of Leng'];
+                const pyramidsMap = ['Alexandria', 'The Bent Pyramid', 'Cairo', 'The Sahara Desert', 'Tel el-Amarna', 'The Nile River'];
+                const dreamlandsMap = ['Celephaïs', 'Dylath-Leen', 'The Enchanted Wood', 'The Moon', 'The Underworld', 'Ulthar', 'Unknown Kadath'];
+
+                const pool = baseFields;
+                if (document.getElementById('mom').checked) {
+                    antarticaMap.forEach(field => {
+                        pool.push(field);
+                    });
+                }
+                if (document.getElementById('pyram').checked) {
+                    pyramidsMap.forEach(field => {
+                        pool.push(field);
+                    });
+                }
+                if (document.getElementById('dlands').checked) {
+                    dreamlandsMap.forEach(field => {
+                        pool.push(field);
+                    });
+                }
+
+                return pool[Math.floor(Math.random() * pool.length)];
+            }
+            return (
+                <a class="button is-link is-large is-fullwidth" onClick={handleClick}>Roll</a>
+            );
+        }
+
+        ReactDOM.render(<ActionLink />, document.getElementById("app"))
+    </script>
+</body>
+</html>
