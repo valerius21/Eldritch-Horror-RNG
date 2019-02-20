@@ -8,9 +8,10 @@ class App extends Component {
             pool: [],
             rdm: this.getField(),
         };
+        this.getField = this.getField.bind(this);
     }
 
-    getField = () => {
+    getField() {
         /**
          * Expansions
          */
@@ -33,7 +34,7 @@ class App extends Component {
         return pool[
             Math.floor(Math.random() * pool.length)
         ];
-    }
+    };
 
     handleClick = (e) => {
         e.preventDefault();
